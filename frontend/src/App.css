@@ -1,0 +1,655 @@
+
+.appcanvas{
+  position: absolute;
+
+}
+
+.myapp{
+  display: flex;
+  width: 100vw;
+  height: 27vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 150px;
+}
+.bttn{
+  background-color: black;
+  color: white;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+ }
+
+body{
+  background-color: hsl(19, 89%, 15%);
+  color: white;
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+
+  }
+
+  .regBttn{
+    color: white;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  font-family: sans-serif;
+  font-size: 1.5rem;
+  margin-top: 200px;
+  }
+
+  .regBttn button{
+    border-radius: 10px;
+    padding: 15px;
+    font-size: 2rem;
+    font-weight: bold;
+    border-color: black;
+    width: 250px;
+    height: 65px;
+  }
+
+  .regBttn button:hover{
+    background-color: hsl(19, 89%, 30%);
+  color: white;
+  font-family: sans-serif;
+  }
+  .regBttn button:active{
+    background-color: hsl(19, 89%, 70%);
+  }
+
+  
+  .loginBttn{
+    margin: 20px;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 1rem;
+    background-color: hsl(201, 85%, 60%);
+    color: white;
+    width: 350px;
+    height: 65px;
+    border-color: black;
+    
+  }
+  
+  .inputFields{
+    width: 80%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 1.5rem;
+  font-family: sans-serif;
+  }
+  .formcontainer{
+    width: 500px;
+    padding: 20px;
+    background: #f7f7f7;
+    color: black;
+    border-radius: 8px;
+    margin-top: 50px;
+    margin-bottom: 70px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    
+  }
+  .formcontainer h2{
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 2rem;
+  color:  hsl(19, 89%, 15%);
+  }
+
+  .radiobttn{
+    display: inline;
+  margin-right: 10px;
+  font-family: sans-serif;
+  font-size: 1.5rem;
+  justify-content: space-between;
+
+  }
+  label{
+    font-family: sans-serif;
+  font-size: 1.5rem;
+  }
+#ts2{
+  margin-left: 50px;
+ 
+}
+
+#ts1{
+  margin-left: 50px;
+}
+#ts3{
+  margin-left: 0px;
+}
+  
+.reg2Bttn{
+  width: 70%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  font-family: sans-serif;
+  font-size: 1.5rem;
+  
+}
+.reg2Bttn:hover {
+    background-color: #0056b3;
+  }
+
+.error-message {
+  color: red;
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+}
+
+.success-message {
+  color: green;
+  font-weight: bold;
+  margin-bottom: 10px;
+    font-size: 1.5rem;
+}
+
+  .contain{
+    position: absolute;
+            top: 20%;
+            left: 35%;
+  }
+
+  .msg{
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 2rem;
+  color:  hsl(19, 89%, 15%);
+  }
+
+  .userprofile {
+    width: 100%;
+    max-width: 500px;
+    padding: 25px;
+    background: hsla(0, 40%, 38%, 0.758);  
+    color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    margin: 40px auto;
+    text-align: center;
+    
+  }
+  
+  .userimg {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border: 4px solid #fff;
+    border-radius: 50%;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  }
+  .userprofile p{
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 1.5rem;
+   
+  }
+  
+  
+
+  .usermood {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 25px 30px;
+    background: linear-gradient(135deg, #f9f9f9, #e0e0e0);
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    position: relative;
+    overflow: hidden;
+    transition: background-color 0.4s ease;
+  }
+  
+  /* Different mood colors */
+  .usermood.happy {
+    background: linear-gradient(135deg, #f4ea9e, #efe055);
+    color: #6a5800;
+  }
+  
+  .usermood.sad {
+    background: linear-gradient(135deg, #bbdefb, #5eb0f3);
+    color: #0d47a1;
+  }
+  
+  .usermood.angry {
+    background: linear-gradient(135deg, #ef9a9a, #e53935);
+    color: #690000;
+  }
+  
+  .usermood.neutral {
+    background: linear-gradient(135deg, hsl(19, 45%, 55%), hsl(19, 84%, 27%));
+    color: white;
+  }
+  
+  .usermood.surprised {
+    background: linear-gradient(135deg, #ffe082, #f59f27);
+    color: #be37dc;
+  }
+  
+  .usermood.fearful {
+    background: linear-gradient(135deg, #b39ddb, #9575cd);
+    color: #311b92;
+  }
+  
+  .usermood.disgusted {
+    background: linear-gradient(135deg, #c8e6c9, #81c784);
+    color: #1b5e20;
+  }
+ 
+  .usermood h2 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    font-weight: 700;
+    text-transform: capitalize;
+    letter-spacing: 1.5px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    
+  }
+  
+  .usermood .marquee p {
+    font-size: 1.8rem;
+    font-style: italic;
+    color: inherit;
+    white-space: nowrap;
+    animation: scroll-left 12s linear infinite;
+  }
+  
+  /* Subtle glowing effect */
+  .usermood::before {
+    content: '';
+    position: absolute;
+    top: -10%;
+    left: -10%;
+    width: 120%;
+    height: 120%;
+    background: radial-gradient(circle at center, rgba(255,255,255,0.3), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    border-radius: 15px;
+    pointer-events: none;
+  }
+  
+  .usermood:hover::before {
+    opacity: 1;
+  }
+  
+  @keyframes scroll-left {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+  
+  
+  .profilecontainer{
+    width: 100%;  
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;   
+    justify-content: center;
+    align-items: center;
+   
+  }
+ 
+
+  .profilecontainer h2{
+    font-family: verdana;
+    font-size: 2rem; 
+    font-weight: lighter;
+  }
+
+  .welcome-message {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: hsl(57, 79%, 53%);
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+  }
+  
+  .welcome-message:hover {
+    color: hsl(57, 90%, 60%);
+    cursor: default;
+  }
+
+  .arrowbtn{
+    font-size: 1.7rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+    position: fixed;
+    top: 2%;
+    left: 0.5%;
+   
+  }
+
+  .logbttn{
+    width: 20%;
+    padding: 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-family: sans-serif;
+    font-size: 1.5rem;
+    margin-left: 20px;
+    margin-top: 45px;
+    text-align: center; 
+
+  }
+  .text-white{
+    color: white;
+  }
+  
+ 
+  .attendanceLayout {
+    font-family: sans-serif;
+    font-size: 1.5rem;
+    padding: 1rem 2rem;  
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  .attendanceLayout table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 2.5rem;
+    font-family: sans-serif;
+ 
+  }
+  
+  .attendanceLayout th,
+  .attendanceLayout td {
+    padding: 20px;
+    text-align: center;
+    height: 50px;
+    color:  white;
+   
+  }
+  
+  /* Header styling */
+  .attendanceLayout th {
+    background-color: hsl(211, 44%, 25%); /* dark brown */
+    color: white; /* light cream */
+    font-size: 1.5rem; 
+    height: 50px;
+    padding: 10px;
+  }
+  .attendanceLayout td {
+    
+    font-size: 1.5rem;
+    height: 50px;    /* Keeps cell height same */
+    padding: 10px;  /* Decreased font size */
+      /* Optional: Adjust to balance layout */
+  }
+  /* Alternating row colors */
+  .attendanceLayout tbody tr:nth-child(odd) {
+    background-color: hsl(211, 73%, 70%);  
+  }
+  
+  .attendanceLayout tbody tr:nth-child(even) {
+    background-color: hsl(211, 44%, 35%); /* darker brown */
+  }
+  
+  .attendanceLayout h2 {
+    text-align: center;
+    color: #FFD700; /* or any gold/brown/cream */
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #5C4033;
+    display: inline-block;
+    padding-bottom: 0.5rem;
+  }
+
+  .table-wrapper {
+    overflow-x: auto;
+    max-width: 100%;
+    border: 1px;
+    border-radius: 6px;
+    padding: 10px 0; /* optional spacing */
+  }
+  
+  /* Optional: ensure table has a minimum width so columns don't shrink too much */
+  .table-wrapper table {
+    min-width: 700px;
+  }
+  .attbttn{
+    width: 80%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    font-family: sans-serif;
+    font-size: 1.2rem;
+    margin-left: 20px;
+    margin-top: 25px;
+    text-align: center;   
+    
+      
+  }
+  .menu-dots {
+    width: 30px;
+    cursor: pointer;
+    padding: 10px;
+    position: fixed;
+    top: 20px;
+    left: 5px;
+    z-index: 999;
+  }
+  
+  .menu-dots span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: hsl(57, 79%, 53%);
+    margin: 5px 0;
+    border-radius: 0;
+    transition: transform 0.4s ease, opacity 0.3s ease;
+
+  }
+  .menu-dots.open span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+  
+  .menu-dots.open span:nth-child(2) {
+    opacity: 0;
+  }
+  
+  .menu-dots.open span:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -6px);
+  }
+  
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -420px;
+    height: 100%;
+    width: 300px;
+    background-color: hsla(0, 88%, 10%, 0.6); 
+   
+    padding: 1rem;
+    transition: left 0.3s ease;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    z-index: 998;
+  }
+  
+  .sidebar.open {
+    left: 0;
+  }
+  
+  .marquee {
+    white-space: nowrap;
+    overflow: hidden;
+    width: 100%; /* or set the width to your desired size */
+  }
+  
+  .marquee p {
+    display: inline-block;
+    animation: scroll-left 10s linear infinite;
+  }
+  
+  @keyframes scroll-left {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+  
+  .registration-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999; /* above everything */
+  }
+  
+  
+  
+  
+  .close-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  
+  
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: hsla(0, 0%, 0%, 0.273);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+  }
+  
+  .modal-box {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 20px;
+    width: 500px;
+    position: relative;
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    text-align: center;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  .modal-box input {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1.5rem;
+  }
+  
+  .submit-button {
+    padding: 0.5rem 1rem;
+    background-color: #3f51b5;
+    font-size: 1.5rem;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .submit-button:hover{
+    background-color: hsl(231, 48%, 20%);
+  }
+  .close-button1 {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    font-size: 2rem;
+    background: none;
+    border: none;
+    color: hsl(0, 92%, 38%);
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .close-button1:hover {
+    color: #000;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .edit-profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    background: #f6f6f6;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    max-width: 400px;
+    margin: 1rem auto;
+    
+  }
+  
+  .edit-profile-form input,
+  .edit-profile-form select {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #aaa;
+    font-size: 1.2rem;
+  }
+  
+  .edit-profile-form button {
+    padding: 8px 12px;
+    border: none;
+    background-color: #4caf50;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.5rem;
+  }
+  .edit-profile-form label{
+    color: hsl(212, 82%, 47%);
+    text-align: left;
+  }
+  .edit-profile-form button:hover {
+    background-color: #45a049;
+  }
+  
+  
