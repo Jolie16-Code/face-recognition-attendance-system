@@ -591,8 +591,7 @@ res.send("Backend is running!");
 
 
 
-connectDb();
-
+//connectDb();
 
 const startServer = async () => {
   try {
@@ -602,8 +601,6 @@ const startServer = async () => {
       console.log(`✅ Server running on port ${PORT}`);
     });
 
-    await cleanupOrphans();
-
   } catch (err) {
     console.error("Failed to start server:", err);
     process.exit(1);
@@ -611,6 +608,7 @@ const startServer = async () => {
 };
 
 startServer();
+
 /*app.listen(port, async () => {
   console.log(`✅ Server running on port ${port}`);
 
