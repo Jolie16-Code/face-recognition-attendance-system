@@ -18,7 +18,7 @@ const cors = require("cors")
 
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const directoryPath = path.join(__dirname, '../frontend/public/uploads');
+const directoryPath = path.join(__dirname, 'uploads');
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
