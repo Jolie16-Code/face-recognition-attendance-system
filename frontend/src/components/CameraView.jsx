@@ -58,13 +58,13 @@ function CameraView(){
       canvasRef.current.innerHtml = faceapi.createCanvasFromMedia(videoRef.current)
      
       faceapi.matchDimensions(canvasRef.current,{
-        width:950,
-        height:650
+        width:600,
+        height:400
       })
 
       const resized = faceapi.resizeResults(detections,{
-         width:950,
-        height:650
+         width:600,
+        height:400
       })
 
       faceapi.draw.drawDetections(canvasRef.current,resized)
@@ -124,7 +124,7 @@ function CameraView(){
 
   return (
     <div className="myapp">
-    <h1 className='heading'>FACADE 🎦</h1>
+    <h4 className='heading'>FACADE 🎦</h4>
       <div className="appvide">
         
       <button className='bttn' ><video crossOrigin="anonymous" ref={videoRef} autoPlay></video></button>
