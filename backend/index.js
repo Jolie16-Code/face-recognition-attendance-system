@@ -594,26 +594,23 @@ app.get("/",cors(),(req,res)=>{
 connectDb();
 
 
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(`✅ Server running on port ${PORT}`);
-});
-
-const cleanupOrphans = async () => {
+const startServer = async () => {
   try {
-    const existingUserIds = await mymodel.find().distinct('_id');
-    const result = await Attendance.deleteMany({
-      userId: { $nin: existingUserIds }
+    await connectDb();
+
+    app.listen(port, "0.0.0.0", () => {
+      console.log(`✅ Server running on port ${PORT}`);
     });
 
-    console.log(`🧹 Deleted ${result.deletedCount} orphaned attendance records`);
+    await cleanupOrphans();
+
   } catch (err) {
-    console.error('Auto-cleanup error:', err);
+    console.error("Failed to start server:", err);
+    process.exit(1);
   }
 };
 
-// run after server starts
-cleanupOrphans();
-
+startServer();
 /*app.listen(port, async () => {
   console.log(`✅ Server running on port ${port}`);
 
