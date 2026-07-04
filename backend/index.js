@@ -585,7 +585,7 @@ app.get('/attendance/graph-data', async (req, res) => {
 });
 
 app.get("/",cors(),(req,res)=>{
-
+res.send("Backend is running!");
 })
 
 
