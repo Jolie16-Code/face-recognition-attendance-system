@@ -2,10 +2,10 @@ const express= require('express');
 const router = express.Router();
 const multer = require("multer");
 const Reg = require("../model/model1")
-const mongoose=require("mongoose")
-const connectDb = require('../db1/config')
+//const mongoose=require("mongoose")
+//const connectDb = require('../db1/config')
 const nodemailer = require('nodemailer'); 
-mongoose.connect("mongodb://localhost:27017/faceRecDb")
+/*mongoose.connect("mongodb://localhost:27017/faceRecDb")
 .then(()=>{
     console.log("mongodb connected");
 })
@@ -13,7 +13,7 @@ mongoose.connect("mongodb://localhost:27017/faceRecDb")
     console.log('failed');
 })
 
-connectDb()
+connectDb()*/
 
 const transporter = nodemailer.createTransport({
     service: 'gmail', // Use 'gmail', 'outlook', 'yahoo', or a custom host

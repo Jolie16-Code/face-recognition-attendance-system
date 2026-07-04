@@ -4,7 +4,7 @@ const express= require('express');
 const app= express();
 const faceRouter = require('./routes/registration')
 const Attendance = require("./model/model2")
-
+const connectDb = require('./db1/config');
 const path = require('path');
 const multer = require('multer');
 const fs = require('fs');
@@ -62,8 +62,9 @@ app.get('/find-user', async (req, res) => {
       if (!imageName) {
         return res.status(400).json({ message: 'Image name required' });
       }
-  
+  console.log("Image received from frontend:", imageName);
       const user = await mymodel.findOne({  userImage: imageName } );
+      console.log("User found:", user);
   
       if (user) {
         //const today = new Date().toLocaleDateString();
@@ -82,7 +83,7 @@ app.get('/find-user', async (req, res) => {
       console.log("Already Marked Record:", alreadyMarked);
 
       if (!alreadyMarked) {
-
+const now = new Date();
   const day = now.getDay();
 
 const loginSeconds =
@@ -590,7 +591,7 @@ app.get("/",cors(),(req,res)=>{
 
 
 
-
+connectDb();
 
 
 
