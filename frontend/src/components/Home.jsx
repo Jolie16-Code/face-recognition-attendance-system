@@ -69,13 +69,13 @@ function Home(){
       canvasRef.current.innerHtml = faceapi.createCanvasFromMedia(videoRef.current)
      
       faceapi.matchDimensions(canvasRef.current,{
-        width:950,
-        height:650
+        width:600,
+        height:400
       })
 
       const resized = faceapi.resizeResults(detections,{
-         width:950,
-        height:650
+         width:600,
+        height:400
       })
 
       faceapi.draw.drawDetections(canvasRef.current,resized)
@@ -376,7 +376,7 @@ function Home(){
         
       <button className='bttn' ><video crossOrigin="anonymous" ref={videoRef} autoPlay></video></button>
       </div>
-      <canvas ref={canvasRef} width="940" height="650"
+      <canvas ref={canvasRef} width="600" height="400"
       className="appcanvas"/>
       </div>
       <div className='regBttn'> <br></br> 
