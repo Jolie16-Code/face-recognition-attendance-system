@@ -129,7 +129,7 @@ function CameraView(){
         
       <button className='bttn' ><video crossOrigin="anonymous" ref={videoRef} autoPlay></video></button>
       </div>
-      <canvas ref={canvasRef} width="700" height="500"
+      <canvas ref={canvasRef} width="600" height="400"
       className="appcanvas"/>
       
     </div>

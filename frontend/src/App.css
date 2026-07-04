@@ -11,7 +11,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 150px;
+  margin-top: 140px;
 }
 .bttn{
   background-color: black;
@@ -46,8 +46,8 @@ body{
     font-size: 2rem;
     font-weight: bold;
     border-color: black;
-    width: 250px;
-    height: 65px;
+    width: 200px;
+    height: 50px;
   }
 
   .regBttn button:hover{
@@ -67,8 +67,8 @@ body{
     font-size: 1rem;
     background-color: hsl(201, 85%, 60%);
     color: white;
-    width: 350px;
-    height: 65px;
+    width: 200px;
+    height: 50px;
     border-color: black;
     
   }
