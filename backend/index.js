@@ -598,7 +598,7 @@ const startServer = async () => {
     await connectDb();
 
     app.listen(port, "0.0.0.0", () => {
-      console.log(`✅ Server running on port ${PORT}`);
+      console.log(`✅ Server running `);
     });
 
   } catch (err) {
