@@ -28,7 +28,7 @@ app.use(bodyParser.json())
 
 
 
-const port = process.env.PORT;
+const port = process.env.PORT||8001;
 
 const transporter = nodemailer.createTransport({
     service: 'gmail', // You can use 'outlook', 'yahoo', or a custom host
