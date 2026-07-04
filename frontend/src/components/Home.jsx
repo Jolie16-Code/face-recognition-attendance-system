@@ -5,6 +5,7 @@ import * as faceapi from 'face-api.js'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Register from './Register';
+import { BASE_URL } from '../config';
 
 function Home(){
   const videoRef = useRef()
@@ -209,7 +210,7 @@ function Home(){
       // Add more image paths here
     ];*/
     try{
-    const response = await fetch("http://localhost:8001/filenames");
+    const response = await fetch(`${BASE_URL}/filenames`);
       const filenamesString = await response.text();
       const filenames = filenamesString.split(",").map(file => `/uploads/${file.trim()}`);
 
@@ -293,7 +294,7 @@ function Home(){
     const encodedImageName = encodeURIComponent(matchedImageFilename)
     console.log("Best matched image:", encodedImageName);
     
-    const response = await fetch(`http://localhost:8001/find-user?image=${encodedImageName}`);
+    const response = await fetch(`${BASE_URL}/find-user?image=${encodedImageName}`);
     const user = await response.json();
    
       

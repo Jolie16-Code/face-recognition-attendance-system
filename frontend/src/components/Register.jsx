@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { BASE_URL } from '../config';
 
 
 
@@ -72,7 +73,7 @@ const Register = ({ onSuccess }) => {
    
 
     try {
-      const response = await axios.post('http://localhost:8001/faceregister', data, {
+      const response = await axios.post(`${BASE_URL}/faceregister`, data, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

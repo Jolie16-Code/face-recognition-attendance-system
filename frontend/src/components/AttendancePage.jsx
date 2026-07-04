@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import moment from 'moment';
+import { BASE_URL } from '../config';
 
 const AttendancePage = () => {
   const { state } = useLocation();
@@ -19,9 +20,9 @@ const AttendancePage = () => {
       if (nameFilter) query.append('name', nameFilter);
       if (dateFilter) query.append('attendanceDate', dateFilter);
 
-      url = `http://localhost:8001/attendance/all?${query.toString()}`;
+      url = `${BASE_URL}/attendance/all?${query.toString()}`;
     } else if (userId) {
-      url = `http://localhost:8001/attendance/user/${userId}`;
+      url = `${BASE_URL}/attendance/user/${userId}`;
     } else {
       return;
     }

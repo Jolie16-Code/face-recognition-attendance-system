@@ -1,6 +1,6 @@
 import {useRef,useEffect} from 'react'
 import '../App.css'
-
+import { BASE_URL } from '../config';
 import * as faceapi from 'face-api.js'
 
 
@@ -101,7 +101,7 @@ function CameraView(){
     const dataURL = canvasRef.current.toDataURL('userImage/png');
 
     // Send the image to the backend for comparison
-    axios.post('http://localhost:8001/facelogin', { image: dataURL })
+    axios.post(`${BASE_URL}/facelogin`, { image: dataURL })
       .then(response => {
         if (response.data.success) {
           setMessage("You are a registered member. We are redirecting you to your profile, hold on...");

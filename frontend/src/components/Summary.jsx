@@ -26,7 +26,7 @@ ChartJS.register(
   Legend,
   BarElement
 );
-
+import { BASE_URL } from '../config';
 const Summary = () => {
   const { state } = useLocation();
    console.log("State received in Summary component:", state); 
@@ -156,7 +156,7 @@ const Summary = () => {
     }
 
 
-    const url = `http://localhost:8001/attendance/summary?${query.toString()}`;
+    const url = `${BASE_URL}/attendance/summary?${query.toString()}`;
 
     fetch(url)
       .then((res) => res.json())
@@ -180,7 +180,7 @@ const Summary = () => {
       return;
     }
 
-    const graphUrl = `http://localhost:8001/attendance/graph-data?${graphQuery.toString()}`;
+    const graphUrl = `${BASE_URL}/attendance/graph-data?${graphQuery.toString()}`;
 
     fetch(graphUrl)
       .then((res) => res.json())
@@ -210,7 +210,7 @@ const Summary = () => {
 
   const handleViewProfile = useCallback(async (id) => { // 'id' is the parameter from the table row
     try {
-      const response = await fetch(`http://localhost:8001/user/${id}`);
+      const response = await fetch(`${BASE_URL}/user/${id}`);
       const data = await response.json();
       setSelectedUser(data);
       setEditedUser(data); // Initialize editedUser with selectedUser data for editing
@@ -242,7 +242,7 @@ const Summary = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:8001/update-user/${editedUser._id}`, {
+      const response = await fetch(`${BASE_URL}/update-user/${editedUser._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -387,7 +387,7 @@ const Summary = () => {
   const leaveDate = selectedLeaveDate || new Date().toISOString().split('T')[0];
 
   try {
-    const response = await fetch('http://localhost:8001/apply-casual-leave', {
+    const response = await fetch(`${BASE_URL}/apply-casual-leave`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -424,7 +424,7 @@ const Summary = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:8001/user/${userToDelete._id}`, {
+      const response = await fetch(`${BASE_URL}/user/${userToDelete._id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

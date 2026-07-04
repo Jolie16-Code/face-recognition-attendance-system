@@ -3,6 +3,7 @@ import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { ImSwitch } from "react-icons/im";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { BASE_URL } from '../config';
 const ProfilePage = () => {
   const [user, setUser] = useState(null);
   const [editedUser, setEditedUser] = useState({});
@@ -21,7 +22,7 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const response = await fetch(`http://localhost:8001/find-user?image=${imageName}`);
+        const response = await fetch(`${BASE_URL}/find-user?image=${imageName}`);
         if (response.ok) {
           const userData = await response.json();
           setUser(userData);
@@ -68,7 +69,7 @@ const ProfilePage = () => {
 
   const verifyPasskey = async () => {
     try {
-      const response = await fetch('http://localhost:8001/verify-admin', {
+      const response = await fetch(`${BASE_URL}/verify-admin`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: user._id, passkey: adminPasskey }),
@@ -89,7 +90,7 @@ const ProfilePage = () => {
   };
    const verifyPasskey2 = async () => {
     try {
-      const response = await fetch('http://localhost:8001/verify-admin', {
+      const response = await fetch(`${BASE_URL}/verify-admin`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: user._id, passkey: adminPasskey }),
@@ -136,7 +137,7 @@ const ProfilePage = () => {
 
   const updateUserProfile = async () => {
     try {
-      const response = await fetch(`http://localhost:8001/update-user/${user._id}`, {
+      const response = await fetch(`${BASE_URL}/update-user/${user._id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(editedUser),
