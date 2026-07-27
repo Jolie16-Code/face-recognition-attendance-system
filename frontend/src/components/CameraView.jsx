@@ -58,13 +58,13 @@ function CameraView(){
       canvasRef.current.innerHtml = faceapi.createCanvasFromMedia(videoRef.current)
      
       faceapi.matchDimensions(canvasRef.current,{
-        width:600,
-        height:400
+        width:900,
+        height:550
       })
 
       const resized = faceapi.resizeResults(detections,{
-         width:600,
-        height:400
+         width:900,
+        height:550
       })
 
       faceapi.draw.drawDetections(canvasRef.current,resized)
@@ -129,7 +129,7 @@ function CameraView(){
         
       <button className='bttn' ><video crossOrigin="anonymous" ref={videoRef} autoPlay></video></button>
       </div>
-      <canvas ref={canvasRef} width="600" height="400"
+      <canvas ref={canvasRef} width="950" height="600"
       className="appcanvas"/>
       
     </div>
