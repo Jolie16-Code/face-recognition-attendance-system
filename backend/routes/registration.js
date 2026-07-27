@@ -5,6 +5,8 @@ const Reg = require("../model/model1")
 //const mongoose=require("mongoose")
 //const connectDb = require('../db1/config')
 const nodemailer = require('nodemailer'); 
+const cloudinary = require("../config1/cloudinary");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
 /*mongoose.connect("mongodb://localhost:27017/faceRecDb")
 .then(()=>{
     console.log("mongodb connected");
@@ -23,7 +25,7 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-const storage = multer.diskStorage({
+/*const storage = multer.diskStorage({
     destination: (req, file, callback) => {
         callback(null, "../frontend/public/uploads");
     },
@@ -32,9 +34,22 @@ const storage = multer.diskStorage({
     }
 })
 
-const upload = multer({storage: storage});
+const upload = multer({storage: storage});*/
+const storage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+        folder: "facade-users",
+        allowed_formats: ["jpg", "jpeg", "png"],
+        public_id: (req, file) => {
+            return Date.now() + "-" + file.originalname.split(".")[0];
+        }
+    }
+});
+
+const upload = multer({ storage });
 
 router.post("/faceregister", upload.single("userImage") ,  async(req, res) => {
+    console.log(req.file);
 
     try {
         const { name, email, phone, userType } = req.body; // Destructure all fields from body

@@ -606,6 +606,14 @@ const startServer = async () => {
     process.exit(1);
   }
 };
+app.use((err, req, res, next) => {
+    console.error("Multer/Cloudinary Error:");
+    console.error(err);
+
+    res.status(500).json({
+        message: err.message
+    });
+});
 
 startServer();
 
