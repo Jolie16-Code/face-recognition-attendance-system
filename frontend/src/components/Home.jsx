@@ -401,7 +401,7 @@ function Home(){
         }}
       />
     
-    <h2 className='heading'>FACADE 🎦</h2>
+    <h1 className='heading'>FACADE 🎦</h1>
       <div className="appvide">
         
       <button className='bttn' ><video crossOrigin="anonymous" ref={videoRef} autoPlay></video></button>
