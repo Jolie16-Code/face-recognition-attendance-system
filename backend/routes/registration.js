@@ -50,10 +50,11 @@ const upload = multer({ storage });
 
 router.post("/faceregister", upload.single("userImage") ,  async(req, res) => {
     console.log(req.file);
+    console.log("Cloudinary URL:", req.file.path);
 
     try {
         const { name, email, phone, userType } = req.body; // Destructure all fields from body
-        const userImage = req.file ? req.file.originalname : null; // Get filename from uploaded file
+        const userImage = req.file ? req.file.path : null; // Get filename from uploaded file
 
         // --- NEW: Check for existing email ---
         const existingUserByEmail = await Reg.findOne({ email: email });
@@ -73,7 +74,7 @@ router.post("/faceregister", upload.single("userImage") ,  async(req, res) => {
      email: req.body.email,
      phone: req.body.phone,
      userType: req.body.userType,
-     userImage: req.file.originalname
+     userImage: userImage
     
    });
 
@@ -95,6 +96,23 @@ router.post("/faceregister", upload.single("userImage") ,  async(req, res) => {
                     <li><strong>Phone:</strong> ${newUser.phone}</li>
                     <li><strong>User Type:</strong> ${newUser.userType}</li>
                 </ul>
+                 ${newUser.userType === 'Admin' ? `
+                 <hr>
+
+                <h3>🔐 Administrator Access</h3>
+
+             <p>
+                     Since you registered as an Admin, you will need the
+                    following Admin Passkey to access attendance records:
+            </p>
+
+                <h2>${process.env.ADMIN_PASSKEY}</h2>
+
+                <p>
+                Please keep this passkey confidential. Do not share it
+                publicly.
+                </p>
+    `       : ''}
                 <p>You can now log in to the system using your registered face.</p>
                 <p>Welcome aboard!</p>
                 <p>Regards,</p>

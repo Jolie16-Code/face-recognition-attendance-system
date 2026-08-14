@@ -8,6 +8,7 @@ const connectDb = require('./db1/config');
 const path = require('path');
 const multer = require('multer');
 const fs = require('fs');
+const cloudinary = require("./config1/cloudinary");
 const mymodel = require('./model/model1')
 
 const Leave = require('./model/leave'); 
@@ -41,7 +42,7 @@ const transporter = nodemailer.createTransport({
 
 app.use('/', faceRouter)
 
-app.get('/filenames',(req,res) =>{
+/*app.get('/filenames',(req,res) =>{
     fs.readdir(directoryPath, (err,files) =>{
      if (err){
         console.error('Error readin directory :',err);
@@ -52,6 +53,37 @@ app.get('/filenames',(req,res) =>{
      res.send(filenamesString);
     });
 
+});*/
+/*app.get('/filenames', async (req, res) => {
+  try {
+    const users = await mymodel.find({}, "userImage");
+
+    const imageUrls = users
+      .map(user => user.userImage)
+      .filter(Boolean);
+
+    res.json(imageUrls);
+  } catch (err) {
+    console.error("Error fetching image URLs:", err);
+    res.status(500).send("Error fetching image URLs");
+  }
+});*/
+app.get('/filenames', async (req, res) => {
+  try {
+    const users = await mymodel.find({}, "userImage");
+
+    const imageUrls = users
+      .map(user => user.userImage)
+      .filter(image => image && image.startsWith("http"));
+
+    console.log("Cloudinary URLs:", imageUrls);
+
+    res.json(imageUrls);
+
+  } catch (err) {
+    console.error("Error fetching image URLs:", err);
+    res.status(500).send("Error fetching image URLs");
+  }
 });
 
 app.get('/find-user', async (req, res) => {
@@ -525,6 +557,29 @@ app.put('/update-user/:id', async (req, res) => {
   const { name, email, phone, userType } = req.body;
 
   try {
+    const existingEmail = await mymodel.findOne({
+  email,
+  _id: { $ne: userId }
+});
+
+if (existingEmail) {
+  return res.status(400).json({
+    success: false,
+    message: "Email already exists."
+  });
+}
+
+const existingPhone = await mymodel.findOne({
+  phone,
+  _id: { $ne: userId }
+});
+
+if (existingPhone) {
+  return res.status(400).json({
+    success: false,
+    message: "Phone number already exists."
+  });
+}
     const updatedUser = await mymodel.findByIdAndUpdate(
       userId,
       { name, email, phone, userType },
