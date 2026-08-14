@@ -19,10 +19,19 @@ const ProfilePage = () => {
   const [showPasskeyPrompt2, setShowPasskeyPrompt2] = useState(false);
   const [adminPasskey, setAdminPasskey] = useState('');
 
-  useEffect(() => {
+ /* useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const response = await fetch(`${BASE_URL}/find-user?image=${imageName}`);
+        console.log("🔍 Image received in ProfilePage:", imageName);
+        const url = await fetch(`${BASE_URL}/find-user?image=${imageName}`);
+        console.log("🌐 Fetching:", url);
+        const response = await fetch(url);
+
+        console.log("📡 Response status:", response.status);
+
+        const userData = await response.json();
+
+        console.log("👤 Profile response:", userData);
         if (response.ok) {
           const userData = await response.json();
           setUser(userData);
@@ -32,6 +41,7 @@ const ProfilePage = () => {
             phone: userData.phone,
             userType: userData.userType,
           });
+          console.log("✅ User profile loaded successfully");
         } else {
           console.error('User not found');
         }
@@ -39,11 +49,61 @@ const ProfilePage = () => {
         console.error('Error fetching user data:', error);
       }
     };
-
+  console.log("📦 Profile state:", state);
+  console.log("🖼️ imageName:", imageName);
     if (imageName) {
       fetchUserProfile();
     }
-  }, [imageName]);
+  }, [imageName]);*/
+  useEffect(() => {
+  const fetchUserProfile = async () => {
+    try {
+      console.log("🔍 Image received in ProfilePage:", imageName);
+
+      const params = new URLSearchParams({
+        image: imageName
+      });
+
+      const url = `${BASE_URL}/find-user?${params.toString()}`;
+
+      console.log("🌐 Fetching:", url);
+
+      const response = await fetch(url);
+
+      console.log("📡 Response status:", response.status);
+
+      const userData = await response.json();
+
+      console.log("👤 Profile response:", userData);
+
+      if (response.ok) {
+        setUser(userData);
+
+        setEditedUser({
+          name: userData.name,
+          email: userData.email,
+          phone: userData.phone,
+          userType: userData.userType,
+        });
+
+        console.log("✅ User profile loaded successfully");
+      } else {
+        console.error("❌ User not found:", userData);
+      }
+
+    } catch (error) {
+      console.error("❌ Error fetching user data:", error);
+    }
+  };
+
+  console.log("📦 Profile state:", state);
+  console.log("🖼️ imageName:", imageName);
+
+  if (imageName) {
+    fetchUserProfile();
+  }
+
+}, [imageName]);
 
   const dynamicQuotes = {
     happy: ["😀 Keep smiling, because life is a beautiful thing!", "😀 Happiness is not by chance, but by choice.", "😀 The best way to predict the future is to create it."],
@@ -177,7 +237,7 @@ const ProfilePage = () => {
 
         {user ? (
           <div className='userprofile'>
-            <img className='userimg' src={`/uploads/${user.userImage}`} alt={user.name} />
+            <img className='userimg' src={user.userImage} alt={user.name} />
 
             {isEditing ? (
               <div className="edit-profile-form">

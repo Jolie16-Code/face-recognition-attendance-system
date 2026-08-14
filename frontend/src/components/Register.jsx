@@ -173,7 +173,7 @@ const Register = ({ onSuccess }) => {
           filename="userImage"
           onChange={handleFileChange}
           required
-        ></input> ***Upload profile pic, JPG only*** </label><br></br> <br></br>
+        ></input> ***Upload profile pic: JPG, JPEG & PNG only*** </label><br></br> <br></br>
         <button type="submit" className='reg2Bttn'>Save</button><br></br>
       </form>
     </div>

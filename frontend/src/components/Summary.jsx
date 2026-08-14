@@ -663,7 +663,7 @@ const Summary = () => {
 
 
   return (
-    <div className="attendanceLayout" style={{ padding: '20px' }}>
+    <div className="attendanceLayout" style={{ padding: '15px', maxWidth: '100%', boxSizing: 'border-box' }}>
       <h2 style={{ marginBottom: '20px' }}>Attendance Summary</h2>
 
       
@@ -673,11 +673,12 @@ const Summary = () => {
         <div
           className="filter-bar"
           style={{
-            marginBottom: '20px',
+            marginBottom: '15px',
             display: 'flex',
-            gap: '87px',
+            gap: '20px',
             flexWrap: 'wrap',
             alignItems: 'center',
+            justifyContent: 'center',
           }}
         >
           <input
@@ -805,7 +806,7 @@ const Summary = () => {
 
 
       <div className="table-wrapper">
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <table style={{ width: '100%', minWidth: '700px', borderCollapse: 'collapse' }}>
           <thead>
             <tr style={{ backgroundColor: 'hsl(19, 32%, 50%)' }}>
               {/* Name and User Type are always shown */}
@@ -879,7 +880,7 @@ const Summary = () => {
                     <td style={tdStyle} title={presentDatesTooltip}>{user.daysPresent}</td>
                     <td style={tdStyle}>{attendancePercent}%</td>
                     {/* Apply the determined eligibility display and color */}
-                    <td style={{ ...tdStyle, color: eligibilityColor , fontSize:'1.7rem' }}>
+                    <td style={{ ...tdStyle, color: eligibilityColor , fontSize:'1.5rem' }}>
                       {eligibilityDisplay}
                     </td>
 
@@ -994,7 +995,7 @@ const Summary = () => {
             padding: '20px',
             backgroundColor: '#f9f9f9',
             borderRadius: '8px',
-            width: '100%',
+            width: 'calc(100% - 40px)',
             maxWidth: '900px',
             height: '400px',
             margin: '40px auto 20px auto',
@@ -1109,9 +1110,9 @@ const Summary = () => {
                 {deleteMessage}
               </p>
             )}
-            <p style={{ color: 'black', textAlign: 'center', marginBottom: '20px', fontSize:'1.5rem', lineHeight:'1.5'}}>
+            <p style={{ color: 'black', textAlign: 'center', marginBottom: '20px', fontSize:'1rem', lineHeight:'1.5'}}>
               Are you sure you want to delete the profile for <strong>{userToDelete.name} ({userToDelete.email})</strong>? </p>
-               <p style={{ color: 'red', textAlign: 'center', marginBottom: '20px', fontSize:'1.5rem', lineHeight:'1.5'}}>⚠️Warning: This action cannot be undone and will delete all associated attendance and leave records!
+               <p style={{ color: 'red', textAlign: 'center', marginBottom: '20px', fontSize:'1rem', lineHeight:'1.5'}}>⚠️Warning: This action cannot be undone and will delete all associated attendance and leave records!
             </p>
             <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
               <button onClick={confirmDelete} style={{ ...saveButtonStyle, backgroundColor: '#dc3545' }}> {/* Red for delete confirm */}
@@ -1147,8 +1148,8 @@ const inputStyle = {
   padding: '8px',
   border: '1px solid #ccc',
   borderRadius: '4px',
-  fontSize: '1.2rem',
-  width: '180px',
+  fontSize: '1rem',
+  width: '170px',
 };
 
 const buttonStyle = {

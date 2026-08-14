@@ -52,7 +52,7 @@ const AttendancePage = () => {
           style={{
             marginBottom: '20px',
             display: 'flex',
-            gap: '87px',
+            gap: '20px',
             flexWrap: 'wrap',
             alignItems: 'center',
           }}
@@ -67,7 +67,7 @@ const AttendancePage = () => {
               border: '1px solid #ccc',
               fontSize: '1.2rem',  
               borderRadius: '4px',
-              width: '200px',
+              width: 'min(200px, 100%)',
             }}
           />
           <select
@@ -78,7 +78,7 @@ const AttendancePage = () => {
               border: '1px solid #ccc',
               fontSize: '1.2rem',  
               borderRadius: '4px',
-              width: '180px',
+              width: 'min(180px, 100%)',
             }}
           >
             <option value="">All Users</option>
@@ -94,7 +94,7 @@ const AttendancePage = () => {
               border: '1px solid #ccc',
               borderRadius: '4px',
               fontSize: '1.2rem',  
-              width: '180px',
+              width: 'min(180px, 100%)',
             }}
           />
           <button

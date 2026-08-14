@@ -11,6 +11,7 @@ function Home(){
   const videoRef = useRef()
   const canvasRef = useRef()
   const detections = useRef()
+  const storedDescriptorsRef = useRef(null);
   const navigate = useNavigate()
   const [message, setMessage] = useState('');
   const [capturedImages, setCapturedImages] = useState([]);
@@ -18,6 +19,7 @@ function Home(){
   const [mood, setMood] = useState('');
   const [showForm, setShowForm] = useState(false); 
   const [showRegisterForm, setShowRegisterForm] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   
  // const blinkDetected = useRef(false); 
   // LOAD FROM USEEFFECT
@@ -209,31 +211,44 @@ function Home(){
       "/uploads/WhatsApp Image 2025-03-28 at 14.06.17(1).jpeg",
       // Add more image paths here
     ];*/
-    try{
-    const response = await fetch(`${BASE_URL}/filenames`);
-      const filenamesString = await response.text();
-      const filenames = filenamesString.split(",").map(file => `/uploads/${file.trim()}`);
+    if (storedDescriptorsRef.current) {
+    return storedDescriptorsRef.current;
+  }
 
+    try{
+   // const response = await fetch(`${BASE_URL}/filenames`);
+   //   const filenamesString = await response.text();
+     // const filenames = filenamesString.split(",").map(file => `/uploads/${file.trim()}`);
+
+      const response = await fetch(`${BASE_URL}/filenames`);
+      const filenames = await response.json();
     
-    
-   
+      
+    console.log("Cloudinary URLs:", filenames);
        
     const descriptors = [];
    
 
   for (let path of filenames) {
+    console.log("Loading image:", path);
     const img = await faceapi.fetchImage(path);
+    console.log("Image loaded successfully");
     const detection = await faceapi
       .detectSingleFace(img, new faceapi.TinyFaceDetectorOptions())
       .withFaceLandmarks()
       .withFaceDescriptor();
-
+    console.log("Face detection result:", detection);
     if (detection) {
-      const name = path.split("/").pop(); // filename as label
-      descriptors.push(new faceapi.LabeledFaceDescriptors(name, [detection.descriptor]));
+      descriptors.push(
+    new faceapi.LabeledFaceDescriptors(path, [detection.descriptor])
+);
+ console.log("✅ Descriptor created for:", path);
     }
+    else {
+    console.log("❌ No face detected in:", path);
   }
-
+  }
+  storedDescriptorsRef.current = descriptors;
   return descriptors;
 } catch(error){
   console.error("Error loading filenames or descriptors:", error);
@@ -254,15 +269,17 @@ function Home(){
   };
 
   const compareFaces = async () => {
-
+     setIsLoading(true);
    /* if (!blinkDetected.current) {
     setMatchResult("Please blink to proceed with login.");
     return;
   }*/
 
     const storedDescriptor = await getStoredFaceDescriptor();
-    if (!storedDescriptor) {
-      setMatchResult("No face found in stored image.");
+
+    if (!storedDescriptor || storedDescriptor.length === 0) {
+      setMatchResult("No registered face images available.");
+      setIsLoading(false);
       return;
     }
 
@@ -281,6 +298,7 @@ function Home(){
 
     if (!detections) {
       setMatchResult("No face detected in webcam.");
+      setIsLoading(false);
       return;
     }
     const expressions = detections.expressions;
@@ -290,25 +308,37 @@ function Home(){
     const faceMatcher = new faceapi.FaceMatcher(storedDescriptor, 0.6);
     const bestMatch = faceMatcher.findBestMatch(detections.descriptor);
     //setMatchResult(`Match Result: ${bestMatch.toString()}`);
-    const matchedImageFilename = bestMatch.label;
+
+    /*const matchedImageFilename = bestMatch.label;
     const encodedImageName = encodeURIComponent(matchedImageFilename)
     console.log("Best matched image:", encodedImageName);
     
-    const response = await fetch(`${BASE_URL}/find-user?image=${encodedImageName}`);
+    const response = await fetch(`${BASE_URL}/find-user?image=${encodedImageName}`);*/
+    const matchedImageUrl = bestMatch.label;
+
+    console.log("Best matched image URL:", matchedImageUrl);
+
+    const response = await fetch(
+    `${BASE_URL}/find-user?image=${encodeURIComponent(matchedImageUrl)}`
+    );
+
     const user = await response.json();
    
       
     console.log("user:", user)
     if (user && user.name) {
+     
      setMatchResult(`Successfully logged in ✅`); // assuming user document has name
      setTimeout(() => {
+      console.log("🚀 Calling navigate now...");
       // Navigate to the profile page
-      navigate('/profile', { state: { imageName: encodedImageName, detectedMood: mood  } }); // Assuming the profile page is at '/profile'
+      navigate('/profile', { state: { imageName: matchedImageUrl, detectedMood: mood  } }); // Assuming the profile page is at '/profile'
       
-    }, 1000);
+    }, 500);
 
     } else {
      setMatchResult("User not registered! Please register ⬆️");
+      setIsLoading(false);
     }
   } else {
     setMatchResult("Video is not ready.");
@@ -384,7 +414,14 @@ function Home(){
       <button onClick={() => setShowRegisterForm(true)}>Registration</button>
       
       
-      <button onClick={compareFaces} className='loginBttn'>Login</button>
+      <button onClick={compareFaces} className='loginBttn'  disabled={isLoading} >{isLoading ? (
+    <>
+      <span className="loading-spinner"></span>
+      Checking...
+    </>
+  ) : (
+    "Login"
+  )}</button>
      
       <p>{matchResult}</p>
       </div> 

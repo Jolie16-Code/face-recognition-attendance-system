@@ -6,7 +6,7 @@
 
 .myapp{
   display: flex;
-  width: 100vw;
+  width: 100%;
   height: 27vh;
   flex-direction: column;
   align-items: center;
@@ -19,7 +19,20 @@
   margin-left: auto;
   margin-right: auto;
   text-align: center;
+  max-width: 100%;
+  padding: 0;
  }
+ .appvide {
+  width: 600px;
+  max-width: 90vw;
+  margin: 0 auto;
+}
+
+.appvide video {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+}
 
 body{
   background-color: hsl(19, 89%, 15%);
@@ -27,8 +40,8 @@ body{
   font-family: sans-serif;
   margin: 0;
   padding: 0;
-
-  }
+  overflow-x: hidden;
+}
 
   .regBttn{
     color: white;
@@ -38,7 +51,7 @@ body{
   text-align: center;
   font-family: sans-serif;
   font-size: 0.7rem;
-  margin-top: 200px;
+  margin-top: 150px;
   }
 
   .regBttn button{
@@ -60,7 +73,11 @@ body{
     background-color: hsl(19, 89%, 70%);
   }
 
-  
+  .regBttn p {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-top: 15px;
+}
   .loginBttn{
     margin: 20px;
     border-radius: 10px;
@@ -73,7 +90,28 @@ body{
     border-color: black;
     
   }
-  
+  .loading-spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+
+  border: 3px solid rgba(255, 255, 255, 0.4);
+  border-top-color: white;
+
+  border-radius: 50%;
+
+  animation: spin 0.8s linear infinite;
+
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
   .inputFields{
     width: 80%;
   padding: 10px;
@@ -103,6 +141,10 @@ body{
     font-size: 2rem;
   color:  hsl(19, 89%, 15%);
   }
+  .filter-bar {
+  width: 100%;
+  box-sizing: border-box;
+}
 
   .radiobttn{
     display: inline;
@@ -424,17 +466,18 @@ body{
   }
 
   .table-wrapper {
-    overflow-x: auto;
-    max-width: 100%;
-    border: 1px;
-    border-radius: 6px;
-    padding: 10px 0; /* optional spacing */
-  }
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
   
   /* Optional: ensure table has a minimum width so columns don't shrink too much */
   .table-wrapper table {
-    min-width: 700px;
-  }
+  min-width: 700px;
+  width: 100%;
+  box-sizing: border-box;
+}
   .attbttn{
     width: 80%;
     padding: 10px;
@@ -654,3 +697,307 @@ body{
   }
   
   
+
+  /* =========================================
+   RESPONSIVE DESIGN
+   ========================================= */
+
+/* Tablets and smaller laptops */
+@media (max-width: 900px) {
+
+  .myapp {
+    width: 100%;
+    height: auto;
+    margin-top: 100px;
+  }
+
+  .appvide video {
+    width: min(90vw, 600px);
+    height: auto;
+  }
+
+  .appcanvas {
+    width: min(90vw, 600px);
+    height: auto;
+  }
+
+  .regBttn {
+    margin-top: 150px;
+  }
+
+  .formcontainer {
+    width: 85%;
+    box-sizing: border-box;
+  }
+
+  .userprofile {
+    width: 85%;
+    box-sizing: border-box;
+  }
+
+  .usermood {
+    width: 85%;
+    box-sizing: border-box;
+  }
+
+  .modal-box {
+    width: 80%;
+    box-sizing: border-box;
+  }
+
+  .attendanceLayout {
+    padding: 1rem;
+  }
+
+  .attendanceLayout table {
+    font-size: 1.2rem;
+  }
+}
+
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 600px) {
+
+  body {
+    overflow-x: hidden;
+  }
+
+  /* ---------- HOME PAGE ---------- */
+
+  .myapp {
+    width: 100%;
+    height: auto;
+    margin-top: 80px;
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+
+  .heading {
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  .appvide {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .appvide video {
+    width: 90vw;
+    max-width: 500px;
+    height: auto;
+  }
+
+  .appcanvas {
+    width: 90vw;
+    max-width: 500px;
+    height: auto;
+  }
+
+  .regBttn {
+    margin-top: 120px;
+    width: 100%;
+  }
+
+  .regBttn button {
+    width: 80%;
+    max-width: 300px;
+    font-size: 1.3rem;
+    height: 55px;
+    padding: 10px;
+  }
+
+  .loginBttn {
+    width: 70%;
+    max-width: 250px;
+    margin: 15px;
+    font-size: 1rem;
+  }
+
+
+  /* ---------- REGISTRATION FORM ---------- */
+
+  .formcontainer {
+    width: 90%;
+    max-width: 450px;
+    padding: 15px;
+    margin-top: 30px;
+    box-sizing: border-box;
+  }
+
+  .formcontainer h2 {
+    font-size: 1.6rem;
+  }
+
+  .inputFields {
+    width: 90%;
+    box-sizing: border-box;
+    font-size: 1rem;
+  }
+
+  label {
+    font-size: 1.1rem;
+  }
+
+  .radiobttn {
+    font-size: 1.1rem;
+  }
+
+  .reg2Bttn {
+    width: 90%;
+    font-size: 1.1rem;
+  }
+
+  .error-message,
+  .success-message {
+    font-size: 1rem;
+  }
+
+
+  /* ---------- PROFILE ---------- */
+
+  .profilecontainer {
+    width: 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+
+  .welcome-message {
+    font-size: 2rem;
+    letter-spacing: 1px;
+  }
+
+  .userprofile {
+    width: 90%;
+    padding: 20px 15px;
+    margin: 25px auto;
+    box-sizing: border-box;
+  }
+
+  .userimg {
+    width: 140px;
+    height: 140px;
+  }
+
+  .userprofile p {
+    font-size: 1.1rem;
+    word-break: break-word;
+  }
+
+
+  /* ---------- MOOD ---------- */
+
+  .usermood {
+    width: 90%;
+    padding: 20px 15px;
+    margin: 25px auto;
+    box-sizing: border-box;
+  }
+
+  .usermood h2 {
+    font-size: 1.7rem;
+  }
+
+  .usermood .marquee p {
+    font-size: 1.1rem;
+  }
+
+
+  /* ---------- SIDEBAR ---------- */
+
+  .sidebar {
+    width: 250px;
+    left: -300px;
+    box-sizing: border-box;
+  }
+
+  .attbttn {
+    width: 85%;
+    margin-left: 10px;
+    font-size: 1rem;
+  }
+
+  .logbttn {
+    width: 55px;
+    height: 55px;
+    padding: 10px;
+    margin-left: 10px;
+    margin-top: 45px;
+  }
+
+
+  /* ---------- ADMIN PASSKEY MODAL ---------- */
+
+  .modal-box {
+    width: 90%;
+    max-width: 400px;
+    padding: 1.5rem;
+    box-sizing: border-box;
+  }
+
+  .modal-box h3 {
+    font-size: 1.3rem;
+  }
+
+  .modal-box input {
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 1.1rem;
+  }
+
+  .submit-button {
+    font-size: 1rem;
+    padding: 0.6rem 1rem;
+  }
+
+
+  /* ---------- EDIT PROFILE ---------- */
+
+  .edit-profile-form {
+    width: 100%;
+    padding: 15px;
+    box-sizing: border-box;
+  }
+
+  .edit-profile-form input,
+  .edit-profile-form select {
+    font-size: 1rem;
+    box-sizing: border-box;
+  }
+
+  .edit-profile-form button {
+    font-size: 1rem;
+  }
+
+
+  /* ---------- ATTENDANCE ---------- */
+
+  .attendanceLayout {
+    padding: 0.7rem;
+    font-size: 1rem;
+  }
+
+  .attendanceLayout h2 {
+    font-size: 1.5rem;
+  }
+
+  .table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .attendanceLayout table {
+    min-width: 650px;
+    font-size: 1rem;
+  }
+
+  .attendanceLayout th,
+  .attendanceLayout td {
+    padding: 8px;
+    font-size: 1rem;
+  }
+}
