@@ -400,7 +400,7 @@ function Home(){
           padding: '5px',
         }}
       />
-    <br></br> <br></br><br></br>
+    
     <h2 className='heading'>FACADE 🎦</h2>
       <div className="appvide">
         
