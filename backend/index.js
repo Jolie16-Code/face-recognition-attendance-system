@@ -13,7 +13,8 @@ const mymodel = require('./model/model1')
 
 const Leave = require('./model/leave'); 
 
-const nodemailer = require('nodemailer'); // Import nodemailer
+//const nodemailer = require('nodemailer'); // Import nodemailer
+const { sendEmail } = require("./emailService");
 
 const cors = require("cors")
 
@@ -31,13 +32,7 @@ app.use(bodyParser.json())
 
 const port = process.env.PORT||8001;
 
-const transporter = nodemailer.createTransport({
-    service: 'gmail', // You can use 'outlook', 'yahoo', or a custom host
-    auth: {
-        user: process.env.EMAIL_USER, // Your admin email from .env
-        pass: process.env.EMAIL_PASS  // Your app password or regular password from .env
-    }
-});
+
 
 
 app.use('/', faceRouter)
@@ -165,11 +160,24 @@ console.log("Attendance Status:", attendanceStatus);
             };
 
             try {
-                await transporter.sendMail(mailOptions);
-                console.log(`📧 Attendance email sent to ${user.email}`);
-            } catch (emailError) {
-                console.error(`❌ Error sending attendance email to ${user.email}:`, emailError);
-            }
+    const emailResult = await sendEmail({
+        to: user.email,
+        subject: mailOptions.subject,
+        html: mailOptions.html
+    });
+
+    if (emailResult.success) {
+        console.log(`📧 Attendance email sent to ${user.email}`);
+    } else {
+        console.error(`❌ Attendance email failed for ${user.email}`);
+    }
+
+} catch (emailError) {
+    console.error(
+        `❌ Error sending attendance email to ${user.email}:`,
+        emailError
+    );
+}
         }
 
 
@@ -554,11 +562,21 @@ if (userImagePublicId) {
                 `
             };
 
-            await transporter.sendMail(mailOptions);
+           const emailResult = await sendEmail({
+    to: userEmail,
+    subject: mailOptions.subject,
+    html: mailOptions.html
+});
 
-            console.log(
-                `📧 Account deletion confirmation email sent to ${userEmail}`
-            );
+if (emailResult.success) {
+    console.log(
+        `📧 Account deletion confirmation email sent to ${userEmail}`
+    );
+} else {
+    console.error(
+        `❌ Account deletion email failed for ${userEmail}`
+    );
+}
 
         } catch (emailError) {
             console.error(
