@@ -49,10 +49,16 @@ const storage = new CloudinaryStorage({
 const upload = multer({ storage });
 
 router.post("/faceregister", upload.single("userImage") ,  async(req, res) => {
-    console.log(req.file);
-    console.log("Cloudinary URL:", req.file.path);
-
     try {
+        console.log("Uploaded file:", req.file);
+
+        if (!req.file) {
+            return res.status(400).json({
+                message: "Image upload failed. Please try again."
+            });
+        }
+
+        console.log("Cloudinary URL:", req.file.path);
         const { name, email, phone, userType } = req.body; // Destructure all fields from body
         const userImage = req.file ? req.file.path : null; // Get filename from uploaded file
         const userImagePublicId = req.file ? req.file.filename : null;
