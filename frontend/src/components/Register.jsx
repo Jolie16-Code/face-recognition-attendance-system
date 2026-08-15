@@ -83,11 +83,16 @@ const Register = ({ onSuccess }) => {
         },
       });
       setMessage(response.data.message);
-     
-      setTimeout(() => {
-        if (onSuccess) onSuccess();
-        //navigate('/');
-      }, 2000);
+
+setTimeout(() => {
+  setIsSubmitting(false);
+
+  if (onSuccess) {
+    onSuccess();
+  } else {
+    navigate('/');
+  }
+}, 2000);
     
     } catch (error) {
       // THIS CATCH BLOCK HANDLES ERRORS COMING *FROM THE BACKEND*
