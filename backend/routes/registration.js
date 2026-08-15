@@ -55,6 +55,7 @@ router.post("/faceregister", upload.single("userImage") ,  async(req, res) => {
     try {
         const { name, email, phone, userType } = req.body; // Destructure all fields from body
         const userImage = req.file ? req.file.path : null; // Get filename from uploaded file
+        const userImagePublicId = req.file ? req.file.filename : null;
 
         // --- NEW: Check for existing email ---
         const existingUserByEmail = await Reg.findOne({ email: email });
@@ -74,7 +75,8 @@ router.post("/faceregister", upload.single("userImage") ,  async(req, res) => {
      email: req.body.email,
      phone: req.body.phone,
      userType: req.body.userType,
-     userImage: userImage
+     userImage: userImage,
+     userImagePublicId: userImagePublicId
     
    });
 

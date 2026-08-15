@@ -469,10 +469,22 @@ app.delete('/user/:id', async (req, res) => {
 
         const userEmail = user.email;
         const userName = user.name;
-        const userImageFilename = user.userImage;
+       // const userImageFilename = user.userImage;
+       const userImagePublicId = user.userImagePublicId;
         const userType = user.userType;
 
-        console.log("🖼️ Image stored in MongoDB:", userImageFilename);
+        // Delete profile image from Cloudinary
+if (userImagePublicId) {
+    try {
+        await cloudinary.uploader.destroy(userImagePublicId);
+        console.log(`☁️ Cloudinary image deleted: ${userImagePublicId}`);
+    } catch (cloudinaryError) {
+        console.error(
+            `❌ Error deleting image from Cloudinary:`,
+            cloudinaryError
+        );
+    }
+}
 
         // 2. Delete user from database
         await mymodel.findByIdAndDelete(userIdToDelete);

@@ -6,7 +6,8 @@ const registerSchema = new Schema({
     email: {type: String, required: true, unique: true },
     phone: {type: Number, required: true, unique: true },
     userType: {type: String, required: true},
-    userImage: {type: String, required: true}
+    userImage: {type: String, required: true},
+    userImagePublicId: { type: String, required: false }
    
 });
 
