@@ -120,7 +120,7 @@ You can:
 
 If you try the application, I'd really appreciate your feedback on the **user experience, functionality, and overall design**. Your suggestions will help me improve the project further.
 
-**Thank you for taking the time to explore FACADE!
+Thank you for taking the time to explore FACADE!
 
 ##  License
 
