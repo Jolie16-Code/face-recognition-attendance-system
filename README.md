@@ -32,7 +32,7 @@ The application is deployed and accessible through Vercel.
   - Provides administrative access for managing users and attendance records.
 
 - 📧 **Automated Email Notifications**
-  - Sends attendance-related email notifications automatically.
+  - Sends registration, attendance, and account deletion emails automatically using Brevo Transactional Email API.
 
 - ☁️ **Cloud Image Storage**
   - Supports Cloudinary for storing registered profile images.
@@ -51,7 +51,7 @@ The application is deployed and accessible through Vercel.
 | HTTP Client | Axios |
 | Routing | React Router |
 | Image Storage | Cloudinary |
-| Email Service | Nodemailer |
+| Email Service | Brevo Transactional Email API |
 | Deployment | Vercel / Render |
 
 ## 🔄 How It Works
@@ -73,7 +73,7 @@ Identity Verified
        ↓
 Attendance Recorded
        ↓
-Email Notification
+Email Notification via Brevo
 ```
 
 ## 🚀 Deployment
@@ -93,7 +93,7 @@ The backend is deployed separately and communicates with the frontend through RE
 
 - MongoDB Atlas — database
 - Cloudinary — image storage
-- Nodemailer — email notifications
+- Brevo  — transactional email notifications
 
 ##  Author
 
