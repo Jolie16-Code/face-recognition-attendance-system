@@ -1,29 +1,40 @@
-const brevo = require("@getbrevo/brevo");
-
-const apiInstance = new brevo.TransactionalEmailsApi();
-
-const apiKey = apiInstance.authentications["apiKey"];
-apiKey.apiKey = process.env.BREVO_API_KEY;
-
 const sendEmail = async ({ to, subject, html }) => {
     try {
-        const sendSmtpEmail = new brevo.SendSmtpEmail();
-
-        sendSmtpEmail.subject = subject;
-        sendSmtpEmail.htmlContent = html;
-
-        sendSmtpEmail.sender = {
-            name: "FACADE",
-            email: process.env.BREVO_SENDER_EMAIL
-        };
-
-        sendSmtpEmail.to = [
+        const response = await fetch(
+            "https://api.brevo.com/v3/smtp/email",
             {
-                email: to
+                method: "POST",
+                headers: {
+                    "accept": "application/json",
+                    "api-key": process.env.BREVO_API_KEY,
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify({
+                    sender: {
+                        name: "FACADE",
+                        email: process.env.BREVO_SENDER_EMAIL
+                    },
+                    to: [
+                        {
+                            email: to
+                        }
+                    ],
+                    subject: subject,
+                    htmlContent: html
+                })
             }
-        ];
+        );
 
-        const data = await apiInstance.sendTransacEmail(sendSmtpEmail);
+        const data = await response.json();
+
+        if (!response.ok) {
+            console.error("❌ Brevo email error:", data);
+
+            return {
+                success: false,
+                error: data
+            };
+        }
 
         console.log(`📧 Email sent successfully to ${to}`);
         console.log("Brevo response:", data);
@@ -34,7 +45,7 @@ const sendEmail = async ({ to, subject, html }) => {
         };
 
     } catch (error) {
-        console.error("❌ Brevo email error:", error);
+        console.error("❌ Brevo email service error:", error);
 
         return {
             success: false,
