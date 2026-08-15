@@ -458,10 +458,13 @@ app.delete('/user/:id', async (req, res) => {
     const userIdToDelete = req.params.id;
 
     try {
-        // 1. Find the user to get their image filename and email
+        // 1. Find the user before deleting
         const user = await mymodel.findById(userIdToDelete);
+
         if (!user) {
-            return res.status(404).json({ message: 'User not found.' });
+            return res.status(404).json({
+                message: 'User not found.'
+            });
         }
 
         const userEmail = user.email;
@@ -469,62 +472,102 @@ app.delete('/user/:id', async (req, res) => {
         const userImageFilename = user.userImage;
         const userType = user.userType;
 
-        // 2. Delete user from the database
+        console.log("🖼️ Image stored in MongoDB:", userImageFilename);
+
+        // 2. Delete user from database
         await mymodel.findByIdAndDelete(userIdToDelete);
-        console.log(`✅ User profile ${userName} (${userIdToDelete}) deleted from DB.`);
+
+        console.log(
+            `✅ User profile ${userName} (${userIdToDelete}) deleted from DB.`
+        );
 
         // 3. Delete associated attendance records
-        const attendanceDeleteResult = await Attendance.deleteMany({ userId: userIdToDelete });
-        console.log(`✅ Deleted ${attendanceDeleteResult.deletedCount} attendance records for user ${userIdToDelete}.`);
+        const attendanceDeleteResult = await Attendance.deleteMany({
+            userId: userIdToDelete
+        });
+
+        console.log(
+            `✅ Deleted ${attendanceDeleteResult.deletedCount} attendance records.`
+        );
 
         // 4. Delete associated leave records
-        const leaveDeleteResult = await Leave.deleteMany({ userId: userIdToDelete });
-        console.log(`✅ Deleted ${leaveDeleteResult.deletedCount} leave records for user ${userIdToDelete}.`);
+        const leaveDeleteResult = await Leave.deleteMany({
+            userId: userIdToDelete
+        });
 
-        // 5. Delete profile picture from uploads folder
-        if (userImageFilename) {
-            const filePath = path.join(directoryPath, userImageFilename);
-            fs.unlink(filePath, (err) => {
-                if (err) {
-                    console.error(`❌ Error deleting profile picture file ${userImageFilename}:`, err);
-                    // Continue execution even if file deletion fails, as DB records are gone
-                } else {
-                    console.log(`✅ Profile picture file ${userImageFilename} deleted.`);
-                }
-            });
-        }
+        console.log(
+            `✅ Deleted ${leaveDeleteResult.deletedCount} leave records.`
+        );
 
-        // 6. Send registration cancellation email
-        const mailOptions = {
-            from: process.env.ADMIN_EMAIL,
-            to: userEmail,
-            subject: 'FACADE Account Deletion Confirmation',
-            html: `
-                <p>Dear ${userName},</p>
-                <p>This email confirms that your FACADE account, associated with the email <strong>${userEmail}</strong> and user type <strong>${userType}</strong>, has been successfully deleted as per your request or administrative action.</p>
-                <p>All your associated records, including attendance and leave data, have also been removed from our system.</p>
-                <p>If you believe this was an error, please contact the system administrator immediately.</p>
-                <p>Regards,</p>
-                <p>The FACADE Team</p>
-            `
-        };
+        // 5. IMPORTANT:
+        // Send success response immediately.
+        // Do NOT make the frontend wait for email sending.
 
+        res.status(200).json({
+            message: 'User profile and all associated data deleted successfully.'
+        });
+
+        console.log(`🚀 Deletion response sent for ${userName}.`);
+
+        // 6. Send email AFTER responding to frontend
         try {
-            await transporter.sendMail(mailOptions);
-            console.log(`📧 Account deletion confirmation email sent to ${userEmail}`);
-        } catch (emailError) {
-            console.error(`❌ Error sending deletion confirmation email to ${userEmail}:`, emailError);
-            // Continue execution even if email sending fails
-        }
+            const mailOptions = {
+                from: process.env.ADMIN_EMAIL,
+                to: userEmail,
+                subject: 'FACADE Account Deletion Confirmation',
+                html: `
+                    <p>Dear ${userName},</p>
 
-        res.status(200).json({ message: 'User profile and all associated data deleted successfully.' });
+                    <p>
+                        This email confirms that your FACADE account,
+                        associated with the email
+                        <strong>${userEmail}</strong>
+                        and user type
+                        <strong>${userType}</strong>,
+                        has been successfully deleted.
+                    </p>
+
+                    <p>
+                        All your associated records, including attendance
+                        and leave data, have also been removed from our system.
+                    </p>
+
+                    <p>
+                        If you believe this was an error, please contact
+                        the system administrator immediately.
+                    </p>
+
+                    <p>Regards,</p>
+                    <p>The FACADE Team</p>
+                `
+            };
+
+            await transporter.sendMail(mailOptions);
+
+            console.log(
+                `📧 Account deletion confirmation email sent to ${userEmail}`
+            );
+
+        } catch (emailError) {
+            console.error(
+                `❌ Error sending deletion confirmation email to ${userEmail}:`,
+                emailError
+            );
+
+            // Email failure does NOT affect deletion.
+        }
 
     } catch (error) {
-        console.error('Error during user profile deletion:', error);
-        res.status(500).json({ message: 'Server error during profile deletion.' });
+        console.error('❌ Error during user profile deletion:', error);
+
+        // Only send error response if response hasn't already been sent
+        if (!res.headersSent) {
+            res.status(500).json({
+                message: 'Server error during profile deletion.'
+            });
+        }
     }
 });
-
 
 // Example route: POST /verify-admin
 app.post('/verify-admin', async (req, res) => {
