@@ -24,6 +24,13 @@ const transporter = nodemailer.createTransport({
         pass: process.env.EMAIL_PASS  // Your app password or regular password from .env
     }
 });
+transporter.verify((error, success) => {
+    if (error) {
+        console.error("❌ EMAIL TRANSPORTER ERROR:", error);
+    } else {
+        console.log("✅ EMAIL TRANSPORTER READY");
+    }
+});
 
 /*const storage = multer.diskStorage({
     destination: (req, file, callback) => {
