@@ -10,6 +10,7 @@ const ProfilePage = () => {
   const [isEditing, setIsEditing] = useState(false);
   const { state } = useLocation();
   const imageName = state?.imageName;
+  const userId = state?.userId;
   const detectedMood = state?.detectedMood;
   const navigate = useNavigate();
 
@@ -20,91 +21,59 @@ const ProfilePage = () => {
   const [adminPasskey, setAdminPasskey] = useState('');
   const [isVerifying, setIsVerifying] = useState(false);
 
- /* useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        console.log("🔍 Image received in ProfilePage:", imageName);
-        const url = await fetch(`${BASE_URL}/find-user?image=${imageName}`);
-        console.log("🌐 Fetching:", url);
-        const response = await fetch(url);
+ 
+ useEffect(() => {
+  console.log("========== PROFILE DEBUG ==========");
+  console.log("Full navigation state:", state);
+  console.log("imageName:", imageName);
+  console.log("userId:", userId);
 
-        console.log("📡 Response status:", response.status);
-
-        const userData = await response.json();
-
-        console.log("👤 Profile response:", userData);
-        if (response.ok) {
-          const userData = await response.json();
-          setUser(userData);
-          setEditedUser({
-            name: userData.name,
-            email: userData.email,
-            phone: userData.phone,
-            userType: userData.userType,
-          });
-          console.log("✅ User profile loaded successfully");
-        } else {
-          console.error('User not found');
-        }
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    };
-  console.log("📦 Profile state:", state);
-  console.log("🖼️ imageName:", imageName);
-    if (imageName) {
-      fetchUserProfile();
-    }
-  }, [imageName]);*/
-  useEffect(() => {
   const fetchUserProfile = async () => {
     try {
-      console.log("🔍 Image received in ProfilePage:", imageName);
+      let url = '';
 
-      const params = new URLSearchParams({
-        image: imageName
-      });
+      if (userId) {
+        url = `${BASE_URL}/user/${userId}`;
+      } else if (imageName) {
+        url = `${BASE_URL}/find-user?image=${encodeURIComponent(imageName)}`;
+      } else {
+        console.error("❌ NO userId OR imageName received");
+        return;
+      }
 
-      const url = `${BASE_URL}/find-user?${params.toString()}`;
-
-      console.log("🌐 Fetching:", url);
+      console.log("🌐 Fetching URL:", url);
 
       const response = await fetch(url);
 
       console.log("📡 Response status:", response.status);
 
-      const userData = await response.json();
+      const data = await response.json();
 
-      console.log("👤 Profile response:", userData);
+      console.log("📦 Response data:", data);
 
-      if (response.ok) {
-        setUser(userData);
-
-        setEditedUser({
-          name: userData.name,
-          email: userData.email,
-          phone: userData.phone,
-          userType: userData.userType,
-        });
-
-        console.log("✅ User profile loaded successfully");
-      } else {
-        console.error("❌ User not found:", userData);
+      if (!response.ok) {
+        console.error("❌ Server returned error:", data);
+        return;
       }
 
+      setUser(data);
+
+      setEditedUser({
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        userType: data.userType,
+      });
+
+      console.log("✅ USER SUCCESSFULLY LOADED");
     } catch (error) {
-      console.error("❌ Error fetching user data:", error);
+      console.error("🔥 FETCH ERROR:", error);
     }
   };
 
-  console.log("📦 Profile state:", state);
-  console.log("🖼️ imageName:", imageName);
+  fetchUserProfile();
 
-  if (imageName) {
-    fetchUserProfile();
-  }
-
-}, [imageName]);
+}, [userId, imageName]);
 
   const dynamicQuotes = {
     happy: ["😀 Keep smiling, because life is a beautiful thing!", "😀 Happiness is not by chance, but by choice.", "😀 The best way to predict the future is to create it."],

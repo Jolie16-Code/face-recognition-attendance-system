@@ -22,6 +22,7 @@ const Register = ({ onSuccess }) => {
 
   const navigate = useNavigate();
   const [message, setMessage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -47,9 +48,11 @@ const Register = ({ onSuccess }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
      // NEW: Perform email validation before proceeding
     if (!isValidEmail(formData.email)) {
       setMessage('Invalid email format. Email must contain "@" and end with ".com" or ".co.in".');
+      setIsSubmitting(false);
       setTimeout(() => setMessage(''), 5000); // Clear message after 5 seconds
       return; // Stop the submission
     }
@@ -59,6 +62,7 @@ const Register = ({ onSuccess }) => {
     // Basic length check for phone number
     if (!formData.phone || formData.phone.length < 10) {
         setMessage('Please enter a valid phone number ( 10 digits).'); // Added a more descriptive message
+        setIsSubmitting(false);
         setTimeout(() => setMessage(''), 5000);
         return;
     }
@@ -102,6 +106,9 @@ const Register = ({ onSuccess }) => {
       }
       setTimeout(() => setMessage(''), 5000);
     }
+    finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -137,44 +144,62 @@ const Register = ({ onSuccess }) => {
           value={formData.phone}
           onChange={handleChange}
           required
-        ></input> <br></br> <br></br>
-         <input className='radiobttn'
-          type="radio"
-          name="teacher"
-          checked={userType === 'Admin'}
-          id="ts3"
-          value="Admin"
-          onChange={(e) => setuserType(e.target.value)}
-          required
-        ></input>
-        <label htmlFor="ts3">Admin</label>
-        <input className='radiobttn'
-          type="radio"
-          name="teacher"
-          checked={userType === 'Teacher'}
-          id="ts1"
-          value="Teacher"
-          onChange={(e) => setuserType(e.target.value)}
-          required
-        ></input>
-        <label htmlFor="ts1">Teacher</label>
-        <input className='radiobttn' 
-          type="radio"
-          name="teacher"
-          checked={userType === 'Student'}
-          id="ts2"
-          value="Student"
-          onChange={(e) =>setuserType(e.target.value)}
-          required ></input>
-       <label htmlFor="ts2">Student</label> <br></br> <br></br>
-       <label> 
+        ></input> 
+         <div className="user-type-options">
+
+  <label className="user-type-option">
+    <input
+      type="radio"
+      name="teacher"
+      checked={userType === 'Admin'}
+      value="Admin"
+      onChange={(e) => setuserType(e.target.value)}
+      required
+    />
+    <span>Admin</span>
+  </label>
+
+  <label className="user-type-option">
+    <input
+      type="radio"
+      name="teacher"
+      checked={userType === 'Teacher'}
+      value="Teacher"
+      onChange={(e) => setuserType(e.target.value)}
+      required
+    />
+    <span>Teacher</span>
+  </label>
+
+  <label className="user-type-option">
+    <input
+      type="radio"
+      name="teacher"
+      checked={userType === 'Student'}
+      value="Student"
+      onChange={(e) => setuserType(e.target.value)}
+      required
+    />
+    <span>Student</span>
+  </label>
+
+</div> 
+       <label className="upload-label"> 
         <input className='inputFields'
           type="file"
-          filename="userImage"
+          name="userImage"
+          accept=".jpg,.jpeg,.png"
           onChange={handleFileChange}
           required
         ></input> ***Upload profile pic: JPG, JPEG & PNG only*** </label><br></br> <br></br>
-        <button type="submit" className='reg2Bttn'>Save</button><br></br>
+        <button type="submit" className='reg2Bttn' disabled={isSubmitting}>{isSubmitting ? (
+    <>
+      <span className="spinner"></span>
+      Registering...
+    </>
+  ) : (
+    'Save'
+  )}</button><br></br>
       </form>
     </div>
     </div>

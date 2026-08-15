@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import { BASE_URL } from '../config';
 
@@ -7,6 +7,7 @@ const AttendancePage = () => {
   const { state } = useLocation();
   const { userId, isAdminView } = state || {};
   const [records, setRecords] = useState([]);
+  const navigate = useNavigate();
 
   const [userTypeFilter, setUserTypeFilter] = useState('');
   const [nameFilter, setNameFilter] = useState('');
@@ -43,6 +44,12 @@ const AttendancePage = () => {
   };
 
   return (
+    <><button
+  className="attendance-back-arrow"
+  onClick={() => navigate(-1)}
+>
+  ←
+</button>
     <div className="attendanceLayout" style={{ padding: '20px' }}>
       <h2 style={{ marginBottom: '20px' }}>Attendance Record</h2>
 
@@ -111,6 +118,8 @@ const AttendancePage = () => {
             Clear Filters
           </button>
         </div>
+
+       
       )}
    <div className="table-wrapper">
       <table style={{ width: '100%', borderCollapse: 'collapse' }}>
@@ -166,6 +175,7 @@ const AttendancePage = () => {
       </table>
       </div>
     </div>
+     </>
   );
 };
 

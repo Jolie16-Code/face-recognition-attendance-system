@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate  } from 'react-router-dom';
 import { Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -29,6 +29,7 @@ ChartJS.register(
 import { BASE_URL } from '../config';
 const Summary = () => {
   const { state } = useLocation();
+  const navigate = useNavigate();
    console.log("State received in Summary component:", state); 
     const { email, userId, isAdminView, userType: loggedInUserType } = state || {}; 
   const [records, setRecords] = useState([]);
@@ -674,6 +675,10 @@ const Summary = () => {
 
 
   return (
+    <><button
+  className="attendance-back-arrow"
+  onClick={() => navigate(-1)}
+> ←</button>
     <div className="attendanceLayout" style={{ padding: '15px', maxWidth: '100%', boxSizing: 'border-box' }}>
       <h2 style={{ marginBottom: '20px' }}>Attendance Summary</h2>
 
@@ -1036,7 +1041,7 @@ const Summary = () => {
 
             {selectedUser.userImage && (
               <img
-                src={`${import.meta.env.BASE_URL}uploads/${selectedUser.userImage}`}
+                src={selectedUser.userImage}
                 alt={`${selectedUser.name || 'User'}'s Profile Picture`}
                 style={{ width: '150px', height: '150px', borderRadius: '50%', objectFit: 'cover', margin: '0 auto 15px', display: 'block', border: '2px solid #ccc' }}
               />
@@ -1153,6 +1158,7 @@ const Summary = () => {
         </div>
       )}
     </div>
+    </>
   );
 };
 
