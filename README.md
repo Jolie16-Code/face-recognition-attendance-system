@@ -95,20 +95,33 @@ The backend is deployed separately and communicates with the frontend through RE
 - Cloudinary — image storage
 - Nodemailer — email notifications
 
-## 👩‍💻 Author
+##  Author
 
 **Debanjali Adhikary**
 
 MCA Student | Full-Stack Development | Data Analytics | Machine Learning
 
-## 🙏 Acknowledgement
+##  Acknowledgement
 
 This project would not have been possible without the support, collaboration, and contributions of my graduation project team members.
 
 A heartfelt thanks to **Aditi Saha, Priyanjali Baidya, and Rishita Das** for their valuable contributions, teamwork, and support throughout the development of this project.
 
-It was a wonderful experience learning, building, and completing this project together. 💙
+It was a wonderful experience learning, building, and completing this project together. 
 
-## 📄 License
+##  Feedback
+I'd love for you to try out **FACADE** and share your feedback!
+You can:
+- 📝 Register as a **Student, Teacher, or Admin**
+- 📸 Upload your profile picture and complete registration
+- 🔐 Log in using **face recognition**
+- 📊 Explore the attendance management features
+- 📧 Experience the automated email notifications
+
+If you try the application, I'd really appreciate your feedback on the **user experience, functionality, and overall design**. Your suggestions will help me improve the project further.
+
+**Thank you for taking the time to explore FACADE!
+
+##  License
 
 This project is intended for educational and portfolio purposes.
