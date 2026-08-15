@@ -18,6 +18,7 @@ const ProfilePage = () => {
   const [showPasskeyPrompt, setShowPasskeyPrompt] = useState(false);
   const [showPasskeyPrompt2, setShowPasskeyPrompt2] = useState(false);
   const [adminPasskey, setAdminPasskey] = useState('');
+  const [isVerifying, setIsVerifying] = useState(false);
 
  /* useEffect(() => {
     const fetchUserProfile = async () => {
@@ -128,6 +129,7 @@ const ProfilePage = () => {
   }, [detectedMood]);
 
   const verifyPasskey = async () => {
+    setIsVerifying(true);
     try {
       const response = await fetch(`${BASE_URL}/verify-admin`, {
         method: 'POST',
@@ -147,8 +149,12 @@ const ProfilePage = () => {
       console.error('Error verifying admin:', err);
       alert('Something went wrong. Try again.');
     }
+    finally {
+  setIsVerifying(false);
+}
   };
    const verifyPasskey2 = async () => {
+    setIsVerifying(true);
     try {
       const response = await fetch(`${BASE_URL}/verify-admin`, {
         method: 'POST',
@@ -168,6 +174,9 @@ const ProfilePage = () => {
       console.error('Error verifying admin:', err);
       alert('Something went wrong. Try again.');
     }
+    finally {
+  setIsVerifying(false);
+}
   };
 
   const goToAttendance = () => {
@@ -315,7 +324,14 @@ const ProfilePage = () => {
               placeholder="Admin Passkey"
             />
             <div style={{ marginTop: '1rem' }}>
-              <button className="submit-button" onClick={verifyPasskey}>Submit</button>
+              <button className="submit-button" onClick={verifyPasskey} disabled={isVerifying}>{isVerifying ? (
+    <>
+      <span className="loading-spinner"></span>
+      Verifying...
+    </>
+  ) : (
+    "Submit"
+  )}</button>
               <button className="submit-button"  onClick={() => setShowPasskeyPrompt(false)} style={{ marginLeft: '10px'}}>Cancel</button>
             </div>
           </div>
@@ -333,7 +349,14 @@ const ProfilePage = () => {
               placeholder="Admin Passkey"
             />
             <div style={{ marginTop: '1rem' }}>
-              <button className="submit-button" onClick={verifyPasskey2}>Submit</button>
+              <button className="submit-button" onClick={verifyPasskey2} disabled={isVerifying}> {isVerifying ? (
+    <>
+      <span className="loading-spinner"></span>
+      Verifying...
+    </>
+  ) : (
+    "Submit"
+  )}</button>
               <button className="submit-button"  onClick={() => setShowPasskeyPrompt2(false)} style={{ marginLeft: '10px'}}>Cancel</button>
             </div>
           </div>

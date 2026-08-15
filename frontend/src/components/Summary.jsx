@@ -67,6 +67,7 @@ const Summary = () => {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
   const [deleteMessage, setDeleteMessage] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
 
   // Memoize chartOptions: This object will only be created once
   const chartOptions = useMemo(() => ({
@@ -423,6 +424,9 @@ const Summary = () => {
       return;
     }
 
+  setIsDeleting(true);
+  setDeleteMessage('');
+
     try {
       const response = await fetch(`${BASE_URL}/user/${userToDelete._id}`, {
         method: 'DELETE',
@@ -438,8 +442,14 @@ const Summary = () => {
       }
 
       setDeleteMessage('User profile deleted successfully!');
-      fetchSummaryRecords(); // Refresh table data
-      fetchGraphData(); // Refresh graph data
+      setIsDeleting(false);
+
+      // Remove deleted user immediately from the table
+      setRecords(prevRecords =>
+      prevRecords.filter(record => record._id !== userToDelete._id)
+    );
+
+    fetchGraphData();
      
       
       // Auto-close confirmation popup after a delay
@@ -452,6 +462,7 @@ const Summary = () => {
     } catch (error) {
       console.error('Error deleting user profile:', error);
       setDeleteMessage(`Deletion failed: ${error.message}`);
+      setIsDeleting(false);
       // Keep popup open for error message, maybe auto-close after longer timeout
       setTimeout(() => {
         setDeleteMessage('');
@@ -463,7 +474,7 @@ const Summary = () => {
     setUserToDelete(null);
     setShowDeleteConfirm(false);
     setDeleteMessage('');
-  }, []);
+  }, [isDeleting]);
 
   // --- NEW: Export Handlers ---
   const handleExportCSV = useCallback(() => {
@@ -1115,10 +1126,25 @@ const Summary = () => {
                <p style={{ color: 'red', textAlign: 'center', marginBottom: '20px', fontSize:'1rem', lineHeight:'1.5'}}>⚠️Warning: This action cannot be undone and will delete all associated attendance and leave records!
             </p>
             <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
-              <button onClick={confirmDelete} style={{ ...saveButtonStyle, backgroundColor: '#dc3545' }}> {/* Red for delete confirm */}
-                Confirm Delete
+              <button onClick={confirmDelete} disabled={isDeleting} style={{ ...saveButtonStyle,
+      backgroundColor: isDeleting ? '#999' : '#dc3545',
+      cursor: isDeleting ? 'not-allowed' : 'pointer',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: '10px',
+      minWidth: '160px' }}> {/* Red for delete confirm */}
+                 {isDeleting ? (
+      <>
+        <span className="delete-spinner"></span>
+        Deleting...
+      </>
+    ) : (
+      'Confirm Delete'
+    )}
               </button>
-              <button onClick={cancelDelete} style={{...cancelButtonStyle, backgroundColor: 'green'}}>
+              <button onClick={cancelDelete}  disabled={isDeleting} style={{...cancelButtonStyle, backgroundColor: 'green' , opacity: isDeleting ? 0.5 : 1,
+      cursor: isDeleting ? 'not-allowed' : 'pointer'}}>
                 Cancel
               </button>
             </div>
@@ -1245,5 +1271,12 @@ const cancelButtonStyle = {
   cursor: 'pointer',
   fontSize: '1.5rem',
 };
-
+const spinnerStyle = {
+  width: '16px',
+  height: '16px',
+  border: '3px solid rgba(255,255,255,0.4)',
+  borderTop: '3px solid white',
+  borderRadius: '50%',
+  animation: 'spin 0.8s linear infinite',
+};
 export default Summary;
