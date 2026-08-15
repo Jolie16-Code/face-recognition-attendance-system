@@ -129,14 +129,17 @@ router.post("/faceregister", upload.single("userImage") ,  async(req, res) => {
         };
 
         try {
-            await transporter.sendMail(mailOptions);
-            console.log(`📧 Registration confirmation email sent to ${newUser.email}`);
-        } catch (emailError) {
-            console.error(`❌ Error sending registration email to ${newUser.email}:`, emailError);
-        }
+    await transporter.sendMail(mailOptions);
+    console.log(`📧 Registration confirmation email sent to ${newUser.email}`);
+} catch (emailError) {
+    console.error(`❌ Error sending registration email to ${newUser.email}:`, emailError);
+}
 
+console.log("📤 Sending registration response to frontend...");
 
-        res.status(201).json({ message: 'Registered successfully!' });
+return res.status(201).json({
+    message: 'Registered successfully!'
+});
     } catch (err) {
         console.error('Error during registration (catch block):', err);
         // Generic error for other issues during save, as specific duplicates are handled above
