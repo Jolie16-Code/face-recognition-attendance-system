@@ -57,9 +57,14 @@ function Home(){
       faceapi.nets.faceExpressionNet.loadFromUri("/models"),
       faceapi.nets.ageGenderNet.loadFromUri("/models"),
 
-      ]).then(()=>{
-      faceMyDetect()
-    })
+      ]).then(async () => {
+  faceMyDetect();
+
+  // Preload registered face descriptors in the background
+  await getStoredFaceDescriptor();
+
+  console.log("✅ Registered face descriptors preloaded");
+})
   }
 
   const faceMyDetect = ()=>{
