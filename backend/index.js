@@ -97,10 +97,15 @@ app.get('/find-user', async (req, res) => {
         //const today = new Date().toLocaleDateString();
         //const attendanceDate = new Date(today.setHours(0, 0, 0, 0)); // normalize to date only
         const today = new Date();
-        const yyyy = today.getFullYear();
-        const mm = String(today.getMonth() + 1).padStart(2, '0');
-        const dd = String(today.getDate()).padStart(2, '0');
-        const attendanceDate=new Date(`${yyyy}-${mm}-${dd}`);
+
+        const istDate = new Intl.DateTimeFormat('en-CA', {
+        timeZone: 'Asia/Kolkata',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+      }).format(today);
+
+const attendanceDate = new Date(`${istDate}T00:00:00.000Z`);
         
         const alreadyMarked = await Attendance.findOne({
         userId: user._id,
@@ -111,13 +116,41 @@ app.get('/find-user', async (req, res) => {
 
       if (!alreadyMarked) {
 const now = new Date();
-  const day = now.getDay();
+
+const istTime = new Intl.DateTimeFormat('en-IN', {
+  timeZone: 'Asia/Kolkata',
+  hour: '2-digit',
+  minute: '2-digit',
+  second: '2-digit',
+  hour12: false
+}).formatToParts(now);
+
+const hour = Number(istTime.find(part => part.type === 'hour').value);
+const minute = Number(istTime.find(part => part.type === 'minute').value);
+const second = Number(istTime.find(part => part.type === 'second').value);
+console.log("Server time:", new Date().toString());
+console.log("IST time:", `${hour}:${minute}:${second}`);
+const istWeekday = new Intl.DateTimeFormat('en-IN', {
+  timeZone: 'Asia/Kolkata',
+  weekday: 'short'
+}).format(now);
+
+const dayMap = {
+  Sun: 0,
+  Mon: 1,
+  Tue: 2,
+  Wed: 3,
+  Thu: 4,
+  Fri: 5,
+  Sat: 6
+};
+
+const day = dayMap[istWeekday];
 
 const loginSeconds =
-  now.getHours() * 3600 +
-  now.getMinutes() * 60 +
-  now.getSeconds();
-
+  hour * 3600 +
+  minute * 60 +
+  second;
 const start = 9 * 3600;     // 09:00:00
 const end = 11 * 3600;      // 11:00:00
 
@@ -133,11 +166,14 @@ else {
   attendanceStatus = "Late";
 }
 console.log("Attendance Status:", attendanceStatus);
-  const newAttendance = new Attendance({
-    userId: user._id,
-    attendanceStatus
-   
-  });
+ const checkInTime = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}:${String(second).padStart(2, '0')}`;
+
+const newAttendance = new Attendance({
+  userId: user._id,
+  attendanceDate,
+  checkInTime,
+  attendanceStatus
+});
 
   await newAttendance.save();
         console.log(`✅ Attendance saved for ${user.name}`);
@@ -145,13 +181,19 @@ console.log("Attendance Status:", attendanceStatus);
         // --- Send Email Notification (NEW LOGIC) ---
         // Only send email if the user is NOT an Admin
         if (user.userType !== 'Admin') {
+          const formattedAttendanceDate = attendanceDate.toLocaleDateString('en-IN', {
+          timeZone: 'Asia/Kolkata',
+           day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+          });
             const mailOptions = {
                 from: process.env.ADMIN_EMAIL, // Sender address (your admin email from .env)
                 to: user.email,               // Recipient's email (the user who just logged in)
                 subject: 'Attendance Marked Successfully',
                 html: `
                     <p>Dear ${user.name},</p>
-                    <p>Your attendance for today, <strong>${attendanceDate.toLocaleDateString()}</strong>, has been successfully marked at <strong>${newAttendance.checkInTime}</strong>.</p>
+                    <p>Your attendance for today, <strong>${formattedAttendanceDate}</strong>, has been successfully marked at <strong>${newAttendance.checkInTime}</strong>.</p>
                     <p>Thank you!</p>
                     <p>Regards,</p>
                     <p>The Facade Team</p>

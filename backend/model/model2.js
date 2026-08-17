@@ -22,7 +22,14 @@ const attendanceSchema = new Schema({
   type: String,
   default: () => {
     const now = new Date();
-    return now.toTimeString().slice(0, 8); // "HH:MM:SS"
+
+    return now.toLocaleTimeString("en-IN", {
+      timeZone: "Asia/Kolkata",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false
+    });
   },
 },
 
